@@ -21,8 +21,9 @@ Sample payloads live in `shared/sample_data/`.
 
 ## Live demo
 
-> **Public URL:** _add your Render URL here after deploy_  
-> Example shape: `https://modelready.onrender.com`
+> **Public URL:** pending Render Blueprint apply  
+> Expected shape: `https://modelready-<suffix>.onrender.com`  
+> One-click: [Deploy to Render](https://render.com/deploy?repo=https://github.com/abhishek-sutaria/ModelReady)
 
 Demo path:
 
@@ -31,6 +32,31 @@ Demo path:
 3. Click **Compute readiness** → expect `READY`  
 4. Click **Download report** to export the JSON  
 5. Retry with only one file uploaded → expect `INSUFFICIENT_DATA`
+
+### Screenshots
+
+| Landing | Uploads |
+| --- | --- |
+| ![Landing](docs/screenshots/01-landing.png) | ![Uploads](docs/screenshots/02-uploads.png) |
+
+| Ready verdict | Insufficient data |
+| --- | --- |
+| ![Ready](docs/screenshots/03-ready-verdict.png) | ![Insufficient data](docs/screenshots/04-insufficient-data.png) |
+
+## Deployment verification
+
+These checks passed against the production Docker image (`Dockerfile` / `render.yaml`):
+
+| Check | Result |
+| --- | --- |
+| `docker build -t modelready:v0.1.0 .` | Pass |
+| `GET /health` | `200` `{"status":"ok","service":"modelready"}` |
+| `GET /` (UI HTML) | `200` (FastAPI serves the React build) |
+| `GET /assets/*.css` and `/assets/*.js` | `200` |
+| `POST /api/v1/readiness` with pass samples | `READY` |
+| `POST /api/v1/readiness` with quality only | `INSUFFICIENT_DATA` |
+| Browser upload → compute → **Download report** | Pass (Playwright) |
+| Production JS bundle contains no `localhost` / `127.0.0.1` | Pass (same-origin `/api/v1/readiness`) |
 
 ## Architecture
 
@@ -60,6 +86,7 @@ Dockerfile            Single-image public deploy (UI + API)
 render.yaml           Render one-service blueprint
 docker-compose.yml    Local one-URL stack
 .env.example          Environment variable reference
+docs/screenshots/     Demo screenshots
 ```
 
 ## Local setup
@@ -109,14 +136,19 @@ This uses the root `Dockerfile` so the React UI and FastAPI API share one origin
 
 ### Exact steps
 
-1. Push this branch/repo to GitHub (already done if you are on `main` or this PR branch).  
-2. Go to [https://render.com](https://render.com) → **New** → **Blueprint**.  
-3. Connect the `ModelReady` GitHub repository.  
-4. Render reads `render.yaml` and creates one web service named `modelready`.  
-5. Apply the blueprint. Wait for the first Docker build.  
+1. Ensure `main` includes the latest `Dockerfile`, `render.yaml`, and `.dockerignore`.  
+2. Go to [https://render.com](https://render.com) → **New** → **Blueprint**  
+   (or open [Deploy to Render](https://render.com/deploy?repo=https://github.com/abhishek-sutaria/ModelReady)).  
+3. Connect the `ModelReady` GitHub repository / authorize Render.  
+4. Apply the blueprint (`render.yaml` → service `modelready`).  
+5. Wait for the Docker build + deploy.  
 6. Open the service URL (for example `https://modelready-xxxx.onrender.com`).  
 7. Confirm `GET /health` returns `{"status":"ok","service":"modelready"}`.  
 8. Paste that URL into the **Live demo** section above.
+
+**Build:** Docker build from repo root (`Dockerfile`).  
+**Start:** `./entrypoint.sh` → `uvicorn app.main:app --host 0.0.0.0 --port $PORT`  
+**Health:** `GET /health`
 
 ### Railway (same Docker image)
 
@@ -125,15 +157,6 @@ This uses the root `Dockerfile` so the React UI and FastAPI API share one origin
 3. Set builder to **Dockerfile** (root `Dockerfile`).  
 4. Set env vars from `.env.example` (`PORT` is usually injected).  
 5. Deploy and use the generated public HTTPS URL.
-
-### Alternative: Vercel frontend + Render/Railway backend
-
-Use only if you need a split deploy:
-
-1. Deploy backend (API-only) with `backend/Dockerfile` or the API portion of the stack.  
-2. Set `CORS_ORIGINS` to your Vercel domain.  
-3. In Vercel, import `/frontend`, set `VITE_API_BASE_URL` to the backend URL **or** edit `frontend/vercel.json` rewrite destinations.  
-4. Deploy. The demo URL is the Vercel URL.
 
 Prefer the single Docker deploy for demos — fewer moving parts, one URL.
 
