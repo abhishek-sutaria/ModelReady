@@ -1,35 +1,38 @@
-# ModelReady Architecture (MVP)
+# ModelReady Architecture
 
 ## Product
 
 **ModelReady** is one deployed app that decides whether an LLM is ready for production by combining:
 
-1. **Quality checks** (uploaded quality evaluation results)
-2. **SLA / performance checks** (uploaded latency, throughput, error metrics)
+1. **Quality checks**
+2. **SLA / performance checks**
 
-It does **not** run live model evals in MVP. Users upload structured JSON inputs; the backend computes a single verdict with an explanation.
+The primary UX is a **guided evaluation wizard**. The original JSON upload path remains under **Advanced → Import existing results**.
 
 ## High-level flow
 
 ```text
-┌──────────────────────────────────────┐
-│  React + TypeScript (Vite)           │
-│  Upload quality JSON                 │
-│  Upload performance JSON             │
-│  Show verdict + explanation          │
-│  Show missing / insufficient data    │
-└──────────────────┬───────────────────┘
-                   │ POST /api/v1/readiness
-┌──────────────────▼───────────────────┐
-│  FastAPI                             │
-│  1. Validate against shared schemas  │
-│  2. Quality gate evaluation          │
-│  3. SLA / performance gate eval      │
-│  4. Aggregate → one ReadinessReport  │
-└──────────────────────────────────────┘
-                   │
-            shared/schemas/*.json
+┌──────────────────────────────────────────────┐
+│  React + TypeScript wizard                   │
+│  Provider → Model → Suite → SLA → Review → Run│
+│  (+ Advanced JSON import)                    │
+└──────────────────────┬───────────────────────┘
+                       │ POST /api/v1/evaluations
+                       │ (or /api/v1/readiness for Advanced)
+┌──────────────────────▼───────────────────────┐
+│  FastAPI                                     │
+│  Mock Provider → bundled fixtures            │
+│  Quality + Performance inputs                │
+│  Existing readiness engine → ReadinessReport │
+└──────────────────────────────────────────────┘
 ```
+
+## Providers
+
+| Provider | Behavior today |
+| --- | --- |
+| **Mock Provider (default)** | Loads bundled `shared/sample_data` fixtures, overlays wizard model/suite/policy, runs the real readiness engine. **No live model calls.** |
+| Cerebras / OpenAI Compatible / vLLM | Honest unsupported response: live integration is planned; Mock Provider recommended for the demo. |
 
 ## Verdicts
 
@@ -44,16 +47,16 @@ It does **not** run live model evals in MVP. Users upload structured JSON inputs
 
 | Path | Role |
 | --- | --- |
-| `shared/schemas/` | JSON Schema contracts (source of truth) |
-| `shared/sample_data/` | Example quality / performance payloads |
+| `shared/schemas/` | JSON Schema contracts |
+| `shared/sample_data/` | Mock Provider fixtures |
 | `backend/app/engines/readiness.py` | Gate logic + explanation text |
-| `backend/app/api/` | REST endpoints |
-| `frontend/` | Single-page upload + report UI |
+| `backend/app/engines/evaluation.py` | Wizard evaluation orchestration |
+| `frontend/src/components/EvaluationWizard.tsx` | Guided multi-step UX |
 
 ## Out of MVP
 
-Live LLM calls, multi-tenant auth, CI webhooks, agent-generated suites, distributed workers, historical run store.
+Live LLM provider calls, multi-tenant auth, CI webhooks, agent-generated suites, distributed workers, historical run store.
 
 ## Public deployment
 
-Prefer the root `Dockerfile` + `render.yaml`: one container serves the React build and FastAPI on the same origin (one public URL). See the README deployment section for exact steps.
+Prefer the root `Dockerfile` + Render web service: one container serves the React build and FastAPI on the same origin.

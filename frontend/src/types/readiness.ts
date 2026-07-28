@@ -35,3 +35,18 @@ export interface ReadinessRequest {
   quality?: unknown;
   performance?: unknown;
 }
+
+export interface EvaluationRequest {
+  provider: string;
+  model_id: string;
+  suite_id: string;
+  policy_id: string;
+}
+
+export interface EvaluationResponse {
+  mode: "mock" | "unsupported";
+  message: string | null;
+  report: ReadinessReport | null;
+  quality?: unknown;
+  performance?: unknown;
+}
