@@ -21,13 +21,12 @@ Sample payloads live in `shared/sample_data/`.
 
 ## Live demo
 
-> **Public URL:** pending Render Blueprint apply  
-> Expected shape: `https://modelready-<suffix>.onrender.com`  
-> One-click: [Deploy to Render](https://render.com/deploy?repo=https://github.com/abhishek-sutaria/ModelReady)
+> **Public URL:** https://modelready.onrender.com  
+> Dashboard: https://dashboard.render.com/web/srv-d9kf14n10e5c73b2njtg
 
 Demo path:
 
-1. Open the live URL  
+1. Open https://modelready.onrender.com  
 2. Upload `shared/sample_data/quality_pass.json` and `performance_pass.json`  
 3. Click **Compute readiness** → expect `READY`  
 4. Click **Download report** to export the JSON  
@@ -45,11 +44,11 @@ Demo path:
 
 ## Deployment verification
 
-These checks passed against the production Docker image (`Dockerfile` / `render.yaml`):
+Verified live on **https://modelready.onrender.com** (Render free Docker web service from `main`):
 
 | Check | Result |
 | --- | --- |
-| `docker build -t modelready:v0.1.0 .` | Pass |
+| Render service `modelready` (`srv-d9kf14n10e5c73b2njtg`) | Live |
 | `GET /health` | `200` `{"status":"ok","service":"modelready"}` |
 | `GET /` (UI HTML) | `200` (FastAPI serves the React build) |
 | `GET /assets/*.css` and `/assets/*.js` | `200` |
