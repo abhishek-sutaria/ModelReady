@@ -403,7 +403,7 @@ textarea {
   justify-items: center;
   gap: 0.25rem;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   text-align: center;
 }
 
@@ -521,6 +521,20 @@ textarea {
   padding-left: 1.05rem;
   color: var(--ink);
   font-size: 0.86rem;
+}
+
+.wizard-steps__label {
+  display: grid;
+  gap: 0.1rem;
+  line-height: 1.2;
+}
+
+.wizard-steps__stepnum {
+  display: block;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.8;
 }
 
 .wizard-nav {

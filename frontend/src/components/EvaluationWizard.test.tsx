@@ -35,7 +35,7 @@ describe("EvaluationWizard", () => {
     expect(screen.getByText(/TTFT ≤ 500ms/i)).toBeInTheDocument();
 
     continueNext();
-    expect(screen.getByRole("heading", { name: "Review" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /step 5 · review configuration/i })).toBeInTheDocument();
     expect(screen.getByText("demo-model")).toBeInTheDocument();
   });
 

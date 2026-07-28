@@ -152,8 +152,8 @@ export function EvaluationWizard() {
       ) : null}
 
       {step === 1 ? (
-        <section className="wizard-panel">
-          <h2>Choose a provider</h2>
+        <section className="wizard-panel" data-testid="wizard-step-provider">
+          <h2>Step 1 · Select Provider</h2>
           <p className="lede-sm">
             Mock Provider is recommended for this demo — it drives the real
             readiness engine with bundled sample fixtures.
@@ -175,8 +175,8 @@ export function EvaluationWizard() {
       ) : null}
 
       {step === 2 ? (
-        <section className="wizard-panel">
-          <h2>Select a model</h2>
+        <section className="wizard-panel" data-testid="wizard-step-model">
+          <h2>Step 2 · Select Model</h2>
           <div className="card-grid card-grid--compact">
             {models.map((model) => (
               <OptionCard
@@ -194,8 +194,8 @@ export function EvaluationWizard() {
       ) : null}
 
       {step === 3 ? (
-        <section className="wizard-panel">
-          <h2>Evaluation suite</h2>
+        <section className="wizard-panel" data-testid="wizard-step-suite">
+          <h2>Step 3 · Select Evaluation Suite</h2>
           <div className="card-grid">
             {SUITES.map((suite) => (
               <OptionCard
@@ -216,8 +216,8 @@ export function EvaluationWizard() {
       ) : null}
 
       {step === 4 ? (
-        <section className="wizard-panel">
-          <h2>SLA policy</h2>
+        <section className="wizard-panel" data-testid="wizard-step-policy">
+          <h2>Step 4 · Select SLA Policy</h2>
           <div className="card-grid">
             {POLICIES.map((policy) => (
               <OptionCard
@@ -244,8 +244,8 @@ export function EvaluationWizard() {
       ) : null}
 
       {step === 5 ? (
-        <section className="wizard-panel">
-          <h2>Review</h2>
+        <section className="wizard-panel" data-testid="wizard-step-review">
+          <h2>Step 5 · Review Configuration</h2>
           <dl className="review-list">
             <div>
               <dt>Provider</dt>

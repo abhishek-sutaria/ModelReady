@@ -40,13 +40,14 @@ export function AdvancedImport({
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
-        Advanced · Import existing results
+        Advanced → Import Existing Results
       </button>
       {open ? (
-        <div className="advanced__body">
+        <div className="advanced__body" data-testid="advanced-import">
           <p>
-            Preserve the original debugging workflow: upload quality and
-            performance JSON directly into the readiness engine.
+            Power-user / debugging path: upload quality and performance JSON
+            directly into the existing readiness engine. This is not the default
+            landing experience.
           </p>
           <div className="advanced__grid">
             <JsonUpload
