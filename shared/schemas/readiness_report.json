@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://modelready.app/schemas/readiness_report.json",
+  "title": "ReadinessReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verdict",
+    "explanation",
+    "quality_status",
+    "performance_status",
+    "gates",
+    "missing_fields",
+    "warnings"
+  ],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["READY", "READY_WITH_WARNINGS", "NOT_READY", "INSUFFICIENT_DATA"]
+    },
+    "explanation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "quality_status": {
+      "type": "string",
+      "enum": ["pass", "fail", "warning", "missing", "insufficient"]
+    },
+    "performance_status": {
+      "type": "string",
+      "enum": ["pass", "fail", "warning", "missing", "insufficient"]
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "dimension", "status", "message"],
+        "properties": {
+          "id": { "type": "string" },
+          "dimension": { "type": "string", "enum": ["quality", "performance", "data"] },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "fail", "warning", "missing", "insufficient"]
+          },
+          "message": { "type": "string" },
+          "observed": {},
+          "threshold": {}
+        }
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "model_id": { "type": ["string", "null"] }
+  }
+}

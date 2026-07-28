@@ -1,0 +1,1 @@
+{"root":["./src/main.tsx","./src/vite-env.d.ts","./src/api/client.ts","./src/components/JsonUpload.tsx","./src/components/VerdictPanel.test.tsx","./src/components/VerdictPanel.tsx","./src/pages/HomePage.tsx","./src/test/setup.ts","./src/types/readiness.ts"],"version":"5.7.3"}

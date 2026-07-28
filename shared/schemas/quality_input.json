@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://modelready.app/schemas/quality_input.json",
+  "title": "QualityInput",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["model_id", "suite_id", "metrics"],
+  "properties": {
+    "model_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the model under evaluation."
+    },
+    "suite_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name/version of the quality evaluation suite."
+    },
+    "sample_size": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Number of scored examples. Null means unknown."
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accuracy"],
+      "properties": {
+        "accuracy": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "faithfulness": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "toxicity_rate": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "min_accuracy": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.8 },
+        "min_faithfulness": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.75 },
+        "max_toxicity_rate": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.05 },
+        "min_sample_size": { "type": "integer", "minimum": 1, "default": 10 }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}

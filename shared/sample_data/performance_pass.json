@@ -1,0 +1,19 @@
+{
+  "model_id": "llama3.1-8b",
+  "sample_size": 100,
+  "metrics": {
+    "p50_latency_ms": 180,
+    "p95_latency_ms": 420,
+    "ttft_ms": 90,
+    "tokens_per_second": 220,
+    "error_rate": 0.005
+  },
+  "sla": {
+    "max_p95_latency_ms": 2000,
+    "max_ttft_ms": 500,
+    "min_tokens_per_second": 50,
+    "max_error_rate": 0.02,
+    "min_sample_size": 20
+  },
+  "notes": "Interactive chat SLA profile."
+}

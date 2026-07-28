@@ -1,0 +1,16 @@
+{
+  "model_id": "llama3.1-8b",
+  "suite_id": "general_v1",
+  "sample_size": 50,
+  "metrics": {
+    "accuracy": 0.62,
+    "faithfulness": 0.71,
+    "toxicity_rate": 0.08
+  },
+  "thresholds": {
+    "min_accuracy": 0.8,
+    "min_faithfulness": 0.75,
+    "max_toxicity_rate": 0.05,
+    "min_sample_size": 10
+  }
+}

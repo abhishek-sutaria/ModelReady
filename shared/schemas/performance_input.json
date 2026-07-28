@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://modelready.app/schemas/performance_input.json",
+  "title": "PerformanceInput",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["model_id", "metrics"],
+  "properties": {
+    "model_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the model under evaluation."
+    },
+    "sample_size": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Number of latency samples. Null means unknown."
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["p95_latency_ms"],
+      "properties": {
+        "p50_latency_ms": { "type": ["number", "null"], "minimum": 0 },
+        "p95_latency_ms": { "type": ["number", "null"], "minimum": 0 },
+        "ttft_ms": { "type": ["number", "null"], "minimum": 0 },
+        "tokens_per_second": { "type": ["number", "null"], "minimum": 0 },
+        "error_rate": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+      }
+    },
+    "sla": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_p95_latency_ms": { "type": "number", "minimum": 0, "default": 2000 },
+        "max_ttft_ms": { "type": "number", "minimum": 0, "default": 500 },
+        "min_tokens_per_second": { "type": "number", "minimum": 0, "default": 50 },
+        "max_error_rate": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.02 },
+        "min_sample_size": { "type": "integer", "minimum": 1, "default": 20 }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}
