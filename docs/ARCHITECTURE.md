@@ -53,3 +53,7 @@ It does **not** run live model evals in MVP. Users upload structured JSON inputs
 ## Out of MVP
 
 Live LLM calls, multi-tenant auth, CI webhooks, agent-generated suites, distributed workers, historical run store.
+
+## Public deployment
+
+Prefer the root `Dockerfile` + `render.yaml`: one container serves the React build and FastAPI on the same origin (one public URL). See the README deployment section for exact steps.

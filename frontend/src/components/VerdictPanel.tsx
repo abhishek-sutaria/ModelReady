@@ -1,3 +1,4 @@
+import { downloadReadinessReport } from "../api/exportReport";
 import type { GateResult, ReadinessReport, Verdict } from "../types/readiness";
 
 const VERDICT_COPY: Record<Verdict, string> = {
@@ -35,8 +36,20 @@ export function VerdictPanel({ report }: { report: ReadinessReport | null }) {
 
   return (
     <section className={`verdict-panel verdict-panel--${report.verdict.toLowerCase()}`}>
-      <p className="eyebrow">Final decision</p>
-      <h2>{VERDICT_COPY[report.verdict]}</h2>
+      <div className="verdict-panel__top">
+        <div>
+          <p className="eyebrow">Final decision</p>
+          <h2>{VERDICT_COPY[report.verdict]}</h2>
+        </div>
+        <button
+          type="button"
+          className="secondary"
+          onClick={() => downloadReadinessReport(report)}
+        >
+          Download report
+        </button>
+      </div>
+
       <p className="explanation">{report.explanation}</p>
 
       <div className="status-row">

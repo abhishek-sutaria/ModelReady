@@ -51,5 +51,8 @@ describe("VerdictPanel", () => {
 
     render(<VerdictPanel report={report} />);
     expect(screen.getByText("Ready for production")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /download report/i }),
+    ).toBeInTheDocument();
   });
 });

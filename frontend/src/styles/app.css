@@ -172,25 +172,51 @@ textarea {
   padding: 0.25rem 0.25rem 0.5rem;
 }
 
-.primary {
+.primary,
+.secondary {
   appearance: none;
-  border: 0;
   border-radius: 999px;
   padding: 0.85rem 1.35rem;
-  background: var(--accent);
-  color: #f7fffb;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 160ms ease, opacity 160ms ease;
+  transition: transform 160ms ease, opacity 160ms ease, background 160ms ease;
 }
 
-.primary:hover:not(:disabled) {
+.primary {
+  border: 0;
+  background: var(--accent);
+  color: #f7fffb;
+}
+
+.secondary {
+  border: 1px solid rgba(18, 34, 28, 0.18);
+  background: rgba(255, 252, 247, 0.9);
+  color: var(--ink);
+  padding: 0.65rem 1rem;
+  white-space: nowrap;
+}
+
+.primary:hover:not(:disabled),
+.secondary:hover:not(:disabled) {
   transform: translateY(-1px);
 }
 
-.primary:disabled {
+.primary:disabled,
+.secondary:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+.verdict-panel__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.verdict-panel__top h2 {
+  margin-top: 0.35rem;
 }
 
 .actions__hint {
@@ -356,8 +382,13 @@ textarea {
 @media (max-width: 900px) {
   .workspace,
   .status-row,
-  .gate {
+  .gate,
+  .verdict-panel__top {
     grid-template-columns: 1fr;
+  }
+
+  .verdict-panel__top {
+    flex-direction: column;
   }
 
   .brand {

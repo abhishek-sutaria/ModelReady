@@ -9,7 +9,11 @@ COPY backend /app/backend
 COPY shared /app/shared
 
 WORKDIR /app/backend
-ENV PYTHONPATH=/app/backend
+ENV PYTHONPATH=/app/backend \
+    PORT=8000 \
+    CORS_ORIGINS=*
+
+RUN chmod +x /app/backend/entrypoint.sh
 
 EXPOSE 8000
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./entrypoint.sh"]
