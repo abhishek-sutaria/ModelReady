@@ -1,0 +1,16 @@
+.git
+.gitignore
+**/.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/node_modules
+frontend/dist
+frontend/tsconfig.tsbuildinfo
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+README.md
+docs
