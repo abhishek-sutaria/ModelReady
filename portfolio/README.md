@@ -19,12 +19,11 @@ npm run build
 npm run preview
 ```
 
-## Deploy (Vercel + Namecheap)
+## Deploy on `abhishek-sutaria.me`
 
-1. Import the repo in [Vercel](https://vercel.com); set **Root Directory** to `portfolio` while nested here.
-2. Framework: **Vite** — build `npm run build`, output `dist`.
-3. Add domains `abhishek-sutaria.me` and optionally `www.abhishek-sutaria.me`.
-4. Namecheap → Advanced DNS:
+Step-by-step for **Vercel + Namecheap Advanced DNS**: see **[DEPLOY.md](./DEPLOY.md)**.
+
+Quick version: Vercel project root = `portfolio` → add domain `abhishek-sutaria.me` → Namecheap Advanced DNS:
 
 | Type  | Host | Value                  | TTL  |
 | ----- | ---- | ---------------------- | ---- |
